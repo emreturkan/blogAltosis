@@ -6,7 +6,7 @@ import SingleCard from "../components/SingleCard";
 const PostSingle = () => {
   const { id } = useParams();
   const [post, setPost] = useState([]);
-
+  const [comment, setComment] = useState([]);
   const getPost = async () => {
     try {
       const response = await axios.get(
@@ -18,14 +18,26 @@ const PostSingle = () => {
     }
   };
 
+  const getPostComments = async () => {
+    try {
+      const response = await axios.get(
+        `https://jsonplaceholder.typicode.com/posts/${id}/comments`
+      );
+      setComment(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getPost();
+    getPostComments();
   }, []);
 
   return (
     <>
       <Navbar />
-      <SingleCard {...post} />
+      <SingleCard {...post} comment={comment} />
     </>
   );
 };

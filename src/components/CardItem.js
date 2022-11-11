@@ -6,7 +6,6 @@ import Modals from "./Modals";
 
 const CardItem = ({ title, body, id, url }) => {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
