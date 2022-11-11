@@ -7,18 +7,25 @@ import axios from "axios";
 const Forms = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [newPost, setNewPost] = useState([]);
+  const [error, setError] = useState("");
   const SetData = async () => {
     try {
-      const response = await axios.post(
-        "https://jsonplaceholder.typicode.com/todos",
-        {
-          userId: new Date().getTime(),
-          id: new Date().getTime(),
-          title,
-          body,
-        }
-      );
-      console.log(response);
+      if (!title && !body) {
+        const response = await axios.post(
+          "https://jsonplaceholder.typicode.com/todos",
+          {
+            userId: new Date().getTime(),
+            id: new Date().getTime(),
+            title,
+            body,
+          }
+        );
+        console.log(response);
+        setNewPost(response.data);
+      } else {
+        setError("Lütfen Title veya Content Alanını Boş Bırakmayınız!");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +40,7 @@ const Forms = () => {
             type="text"
             placeholder="Enter title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value.trim())}
           />
         </Form.Group>
 
@@ -43,7 +50,7 @@ const Forms = () => {
             type="text"
             placeholder="Content"
             value={body}
-            onChange={e => setBody(e.target.value)}
+            onChange={e => setBody(e.target.value.trim())}
           />
         </Form.Group>
 
